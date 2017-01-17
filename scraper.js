@@ -6,6 +6,7 @@ request('https://www.colorado.edu/amath/2016/10/27/complexdynamical-systems-semi
     var $ = cheerio.load(html);
     var dates = [];
     var person = [];
+    var title = [];
 
     // Dates
     // Grab all text inside of elements with the class .author-meta, split at
@@ -21,6 +22,8 @@ request('https://www.colorado.edu/amath/2016/10/27/complexdynamical-systems-semi
       }
     ).text().trim());
 
-    console.log(person);
+    // Title
+    // Grab strong children of the paragraph element.
+    title.push($('strong','p').text());
   }
 });
