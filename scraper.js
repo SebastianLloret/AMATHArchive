@@ -8,22 +8,28 @@ request('https://www.colorado.edu/amath/2016/10/27/complexdynamical-systems-semi
     var person = [];
     var title = [];
 
-    // Dates
-    // Grab all text inside of elements with the class .author-meta, split at
-    // ':', and remove whitespace at the beginning/end of the string.
-    dates.push($('.author-meta').text().split(':')[1].trim());
+    if ($('table').children().length > 0) {
+      // Dates
+      // Grab all text inside of elements with the class .author-meta, split at
+      // ':', and remove whitespace at the beginning/end of the string.
+      dates.push($('.author-meta').text().split(':')[1].trim());
 
-    // Person
-    // Grab the contents of the first data table, and return anything
-    // with the type of 'text'
-    person.push($('td').first().contents().filter(
-      function() {
-        return this.type === 'text';
-      }
-    ).text().trim());
+      // Person
+      // Grab the contents of the first data table, and return anything
+      // with the type of 'text'
+      person.push($('td').first().contents().filter(
+        function() {
+          return this.type === 'text';
+        }
+      ).text().trim());
 
-    // Title
-    // Grab strong children of the paragraph element.
-    title.push($('strong','p').text());
+      // Title
+      // Grab strong children of the paragraph element.
+      title.push($('strong','p').text());
+    }
+
+    else {
+      console.log('Currently unsupported format.');
+    }
   }
 });
