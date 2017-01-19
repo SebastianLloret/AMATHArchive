@@ -1,36 +1,45 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-request('http://www.colorado.edu/amath/events/archived-events?page=41', function(error, response, html) {
+request('http://www.colorado.edu/amath/events/archived-events', function(error, response, html) {
   if (!error && response.statusCode == 200) {
     var $ = cheerio.load(html);
-    var dates = [];
+    var date = [];
     var person = [];
     var title = [];
 
     // Dates
     $('.date').each(function () {
-      dates.push($(this).text().trim());
+      date.push($(this).text().trim());
     });
 
     // Title + Person
     $('.node-title').each(function(){
       if ($(this).text().indexOf('-') >= 0) {
-        var toSplit = $(this).text().trim().split(' -')
-        title.push(toSplit[0]);
+        var toSplit = $(this).text().split('-');
+        title.push(toSplit[0].trim());
         person.push(toSplit[1].trim());
       }
 
-      if($(this).text().indexOf(':') >= 0) {
-        var toSplit = $(this).text().trim().split(':')
-        title.push(toSplit[0]);
+      else if($(this).text().indexOf(':') >= 0) {
+        var toSplit = $(this).text().split(':');
+        title.push(toSplit[0].trim());
         person.push(toSplit[1].trim());
+      }
+
+      else {
+        title.push($(this).text().trim());
+        person.push('');
       }
     });
 
-
-    console.log(dates);
-    console.log(title);
-    console.log(person);
+    for (var i = 0; i < date.length; i++) {
+      if (person[i] == ''){
+        console.log(date[i] + ' - \"' + title[i] + '\"')
+      }
+      else {
+        console.log(date[i] + ' - ' + person[i] + ' \"' + title[i] + '\"');
+      }
+    }
   }
 });
