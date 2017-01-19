@@ -1,35 +1,36 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-request('https://www.colorado.edu/amath/2016/10/27/complexdynamical-systems-seminar-or-alus', function(error, response, html) {
+request('http://www.colorado.edu/amath/events/archived-events?page=41', function(error, response, html) {
   if (!error && response.statusCode == 200) {
     var $ = cheerio.load(html);
     var dates = [];
     var person = [];
     var title = [];
 
-    if ($('table').children().length > 0) {
-      // Dates
-      // Grab all text inside of elements with the class .author-meta, split at
-      // ':', and remove whitespace at the beginning/end of the string.
-      dates.push($('.author-meta').text().split(':')[1].trim());
+    // Dates
+    $('.date').each(function () {
+      dates.push($(this).text().trim());
+    });
 
-      // Person
-      // Grab the contents of the first data table, and return anything
-      // with the type of 'text'
-      person.push($('td').first().contents().filter(
-        function() {
-          return this.type === 'text';
-        }
-      ).text().trim());
+    // Title + Person
+    $('.node-title').each(function(){
+      if ($(this).text().indexOf('-') >= 0) {
+        var toSplit = $(this).text().trim().split(' -')
+        title.push(toSplit[0]);
+        person.push(toSplit[1].trim());
+      }
 
-      // Title
-      // Grab strong children of the paragraph element.
-      title.push($('strong','p').text());
-    }
+      if($(this).text().indexOf(':') >= 0) {
+        var toSplit = $(this).text().trim().split(':')
+        title.push(toSplit[0]);
+        person.push(toSplit[1].trim());
+      }
+    });
 
-    else {
-      console.log('Currently unsupported format.');
-    }
+
+    console.log(dates);
+    console.log(title);
+    console.log(person);
   }
 });
