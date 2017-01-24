@@ -1,0 +1,26 @@
+{
+  "name": "amatharchive",
+  "version": "1.0.0",
+  "description": "Scrapes all events on the Applied Mathematics event page",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebastianLloret/AMATHArchive.git"
+  },
+  "keywords": [
+    "amath"
+  ],
+  "author": "Sebastian Lloret",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SebastianLloret/AMATHArchive/issues"
+  },
+  "homepage": "https://github.com/SebastianLloret/AMATHArchive#readme",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.79.0"
+  }
+}
