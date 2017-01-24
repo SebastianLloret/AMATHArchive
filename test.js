@@ -4,11 +4,18 @@ var date = [];
 var person = [];
 var type = [];
 
-function requestSite(p) {
+function callback(date, person, type) {
+  console.dir({
+      date: date,
+      person: person,
+      type: type
+    });
+}
+
+for (var p = 0; p < 42; p++) {
   request('http://www.colorado.edu/amath/events/archived-events?page=' + p, function(error, response, html) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
-      console.log('Running');
       // Dates
       $('.date').each(function () {
         date.push($(this).text().trim());
@@ -33,11 +40,10 @@ function requestSite(p) {
           person.push('');
         }
       });
+
+      if (p == 39) {
+        callback(date, person, type);
+      }
     }
   });
-}
-
-for (var p = 0; p < 42; p++) {
-  requestSite(p);
-  console.log(p);
 }
